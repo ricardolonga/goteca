@@ -3,7 +3,8 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"github.com/ricardolonga/golang/repository"
+	"gitlab.com/ricardolonga/goteca/repository"
+	"github.com/NeowayLabs/logger"
 )
 
 func Get(repository repository.Repository) gin.HandlerFunc {
@@ -14,6 +15,7 @@ func Get(repository repository.Repository) gin.HandlerFunc {
 
 func Post(repository repository.Repository) gin.HandlerFunc {
 	return func(context *gin.Context) {
+		logger.Info("POST ok...")
 		context.AbortWithStatus(http.StatusOK)
 	}
 }
