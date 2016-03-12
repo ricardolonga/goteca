@@ -20,7 +20,9 @@ type NewMovieMockRepository struct {
 
 func (me *NewMovieMockRepository) Save(collection string, object interface{}) (savedObject interface{}, err error) {
 	assert.Equal(me.T, "movies", collection)
-	return
+	movie := object.(*entity.Movie)
+	movie.Id = "1"
+	return object, nil
 }
 
 func (me *NewMovieMockRepository) FindAll(collection string) (objects []interface{}, err error) {
@@ -56,8 +58,10 @@ func Test_new_movie(t *testing.T) {
 
 	savedMovie := &entity.Movie{}
 	json.Unmarshal(body, &savedMovie)
+
 	assert.NotNil(t, savedMovie)
-	assert.NotNil(t, savedMovie.Id)
+
+	assert.Equal(t, "1", savedMovie.Id)
 	assert.Equal(t, "Action", savedMovie.Category)
 	assert.Equal(t, "Man of Fire", savedMovie.Name)
 }
