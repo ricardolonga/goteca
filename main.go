@@ -25,7 +25,7 @@ func main() {
 	movies.Use(middleware.Log())
 
 	movies.GET("/movies", controller.Get(repository))
-	movies.POST("/movies", controller.Post(repository))
+	movies.POST("/movies", middleware.CheckNewMovie(), controller.Post(repository))
 	movies.DELETE("/movies/:id", controller.Delete(repository))
 
 	router.Run(":8080")
