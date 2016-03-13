@@ -4,11 +4,39 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"gitlab.com/ricardolonga/goteca/repository"
+	"gopkg.in/mgo.v2"
 )
+
+const MOVIES = "movies"
 
 func Get(repository repository.Repository) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		context.AbortWithStatus(http.StatusOK)
+		id := context.Param("id")
+
+		movie, err := repository.Find(MOVIES, id)
+		if err != nil {
+			if err.Error() == mgo.ErrNotFound.Error() {
+				context.AbortWithStatus(http.StatusNotFound)
+				return
+			}
+
+			context.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		context.JSON(http.StatusOK, movie)
+	}
+}
+
+func GetAll(repository repository.Repository) gin.HandlerFunc {
+	return func(context *gin.Context) {
+		movies, err := repository.FindAll(MOVIES)
+		if err != nil {
+			context.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		context.JSON(http.StatusOK, movies)
 	}
 }
 
@@ -20,7 +48,7 @@ func Post(repository repository.Repository) gin.HandlerFunc {
 			return
 		}
 
-		savedMovie, err := repository.Save("movies", movie)
+		savedMovie, err := repository.Save(MOVIES, movie)
 		if err != nil {
 			context.AbortWithError(http.StatusInternalServerError, err)
 			return
@@ -32,6 +60,18 @@ func Post(repository repository.Repository) gin.HandlerFunc {
 
 func Delete(repository repository.Repository) gin.HandlerFunc {
 	return func(context *gin.Context) {
+		id := context.Param("id")
+
+		if err := repository.Delete(MOVIES, id); err != nil {
+			if err.Error() == mgo.ErrNotFound.Error() {
+				context.AbortWithStatus(http.StatusNotFound)
+				return
+			}
+
+			context.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
 		context.AbortWithStatus(http.StatusOK)
 	}
 }

@@ -13,18 +13,21 @@ import (
 )
 
 func main() {
+	if mongoUrl := os.Getenv("MONGO_URL"); mongoUrl == "" {
+		logger.Fatal("A variavel de ambiente 'MONGO_URL' nao foi definida.")
+	}
+
 	repository := repository.New(GetSession())
 
 	router := gin.New()
-
 	router.GET("/goteca", func(context *gin.Context) {
 		context.AbortWithStatus(http.StatusOK)
 	})
 
 	movies := router.Group("/goteca")
 	movies.Use(middleware.Log())
-
-	movies.GET("/movies", controller.Get(repository))
+	movies.GET("/movies", controller.GetAll(repository))
+	movies.GET("/movies/:id", controller.Get(repository))
 	movies.POST("/movies", middleware.CheckNewMovie(), controller.Post(repository))
 	movies.DELETE("/movies/:id", controller.Delete(repository))
 
@@ -36,9 +39,8 @@ func GetSession() *mgo.Session {
 	var err error
 
 	session, err = mgo.Dial(os.Getenv("MONGO_URL"))
-
 	if err != nil {
-		logger.Error("Error on getting Mongo session! %s", err)
+		logger.Error("Erro ao obter uma sessao com o MongoDB: %s", err)
 
 		for err != nil {
 			time.Sleep(time.Minute)
@@ -47,7 +49,6 @@ func GetSession() *mgo.Session {
 	}
 
 	logger.Info("Conectado no Mongo com sucesso!")
-
 	session.SetMode(mgo.Monotonic, true)
 
 	return session
