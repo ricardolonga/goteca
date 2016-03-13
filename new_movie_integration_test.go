@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"encoding/json"
-	"gitlab.com/ricardolonga/goteca/controller"
+	"github.com/ricardolonga/goteca/controller"
 	"strings"
-	"gitlab.com/ricardolonga/goteca/middleware"
-	"gitlab.com/ricardolonga/goteca/entity"
+	"github.com/ricardolonga/goteca/middleware"
+	"github.com/ricardolonga/goteca/entity"
 )
 
 type NewMovieMockRepository struct {

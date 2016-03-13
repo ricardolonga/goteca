@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.com/ricardolonga/goteca/entity"
+	"github.com/ricardolonga/goteca/entity"
 	"github.com/NeowayLabs/logger"
 	"net/http"
 )

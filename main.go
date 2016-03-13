@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.com/ricardolonga/goteca/controller"
-	"gitlab.com/ricardolonga/goteca/repository"
-	"gitlab.com/ricardolonga/goteca/middleware"
+	"github.com/ricardolonga/goteca/controller"
+	"github.com/ricardolonga/goteca/repository"
+	"github.com/ricardolonga/goteca/middleware"
 	"net/http"
 "gopkg.in/mgo.v2"
 	"os"

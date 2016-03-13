@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"gitlab.com/ricardolonga/goteca/controller"
+	"github.com/ricardolonga/goteca/controller"
 	"strings"
-	"gitlab.com/ricardolonga/goteca/middleware"
+	"github.com/ricardolonga/goteca/middleware"
 )
 
 type InvalidMovieMockRepository struct {

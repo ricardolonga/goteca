@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"gitlab.com/ricardolonga/goteca/repository"
+	"github.com/ricardolonga/goteca/repository"
 	"gopkg.in/mgo.v2"
 )
 
