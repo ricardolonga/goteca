@@ -2,8 +2,8 @@ package repository
 
 import (
 	"gopkg.in/mgo.v2"
-	"camlistore.org/third_party/labix.org/v2/mgo/bson"
 	"github.com/ricardolonga/goteca/entity"
+	"gopkg.in/mgo.v2/bson"
 )
 
 const DB = "goteca"
