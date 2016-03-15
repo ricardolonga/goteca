@@ -5,4 +5,5 @@ go:
 install:
   - go get github.com/stretchr/testify/assert
   - go get github.com/NeowayLabs/logger
+  - go get github.com/gin-gonic/gin
 script: go test ./...
