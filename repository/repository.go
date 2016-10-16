@@ -6,4 +6,3 @@ type Repository interface {
 	Find(collection string, id string) (object interface{}, err error)
 	Delete(collection string, id string) (err error)
 }
-

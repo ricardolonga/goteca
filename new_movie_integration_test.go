@@ -1,43 +1,44 @@
 package main
 
 import (
-	"testing"
-	"github.com/gin-gonic/gin"
-	"net/http/httptest"
-	"net/http"
-	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"encoding/json"
-	"github.com/ricardolonga/goteca/controller"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
 	"strings"
-	"github.com/ricardolonga/goteca/middleware"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/ricardolonga/goteca/controller"
 	"github.com/ricardolonga/goteca/entity"
+	"github.com/ricardolonga/goteca/middleware"
+	"github.com/stretchr/testify/assert"
 )
 
 type NewMovieMockRepository struct {
 	T *testing.T
 }
 
-func (me *NewMovieMockRepository) Save(collection string, object interface{}) (savedObject interface{}, err error) {
+func (me *NewMovieMockRepository) Save(collection string, object interface{}) (interface{}, error) {
 	assert.Equal(me.T, "movies", collection)
 	movie := object.(*entity.Movie)
 	movie.Id = "1"
 	return object, nil
 }
 
-func (me *NewMovieMockRepository) FindAll(collection string) (objects []interface{}, err error) {
+func (me *NewMovieMockRepository) FindAll(collection string) ([]interface{}, error) {
 	assert.Fail(me.T, "Nao deveria ter chamado este metodo...")
-	return
+	return nil, nil
 }
 
-func (me *NewMovieMockRepository) Find(collection string, id string) (object interface{}, err error) {
+func (me *NewMovieMockRepository) Find(collection string, id string) (interface{}, error) {
 	assert.Fail(me.T, "Nao deveria ter chamado este metodo...")
-	return
+	return nil, nil
 }
 
-func (me *NewMovieMockRepository) Delete(collection string, id string) (err error) {
+func (me *NewMovieMockRepository) Delete(collection string, id string) error {
 	assert.Fail(me.T, "Nao deveria ter chamado este metodo...")
-	return
+	return nil
 }
 
 func Test_new_movie(t *testing.T) {
@@ -47,7 +48,7 @@ func Test_new_movie(t *testing.T) {
 	movies.POST("/movies", middleware.CheckNewMovie(), controller.Post(&NewMovieMockRepository{T: t}))
 
 	w := httptest.NewRecorder()
-	invalidMovieBytes := readJsonFile(t, "datasets/valid_movie.json")
+	invalidMovieBytes := []byte("{ \"name\": \"Man of Fire\", \"category\": \"Action\" }")
 	req, _ := http.NewRequest("POST", "/goteca/movies", strings.NewReader(string(invalidMovieBytes)))
 	router.ServeHTTP(w, req)
 

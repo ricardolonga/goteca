@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"gopkg.in/mgo.v2"
 	"github.com/ricardolonga/goteca/entity"
 	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
 )
 
 const DB = "goteca"

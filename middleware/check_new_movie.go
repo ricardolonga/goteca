@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"net/http"
+
+	"errors"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ricardolonga/goteca/entity"
-	"github.com/NeowayLabs/logger"
-	"net/http"
 )
 
 func CheckNewMovie() gin.HandlerFunc {
@@ -12,19 +14,24 @@ func CheckNewMovie() gin.HandlerFunc {
 		movie := &entity.Movie{}
 
 		if err := context.BindJSON(movie); err != nil {
-			logger.Error("Error on unmarshal a new movie: %s", err)
 			context.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
-		if movie.Category == "" {
-			logger.Error("Invalid new movie, category is undefined.")
-			context.AbortWithStatus(http.StatusBadRequest)
+		if err := validate(movie); err != nil {
+			context.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
 		context.Set("movie", movie)
-
 		context.Next()
 	}
+}
+
+func validate(movie *entity.Movie) error {
+	if movie.Category == "" {
+		return errors.New("Category is required.")
+	}
+
+	return nil
 }
