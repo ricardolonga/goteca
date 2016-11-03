@@ -9,4 +9,5 @@ install:
   - go get gopkg.in/mgo.v2
   - go get github.com/onsi/ginkgo
   - go get github.com/onsi/gomega
+  - go get github.com/smartystreets/goconvey/convey
 script: go test ./...
