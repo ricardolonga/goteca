@@ -8,4 +8,5 @@ install:
   - go get github.com/gin-gonic/gin
   - go get gopkg.in/mgo.v2
   - go get github.com/onsi/ginkgo
+  - go get github.com/onsi/gomega
 script: go test ./...
