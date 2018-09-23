@@ -3,23 +3,24 @@ package middleware
 import (
 	"testing"
 
+	"github.com/ricardolonga/goteca"
+	"github.com/ricardolonga/goteca/http"
 	"github.com/stretchr/testify/suite"
-	"github.com/ricardolonga/goteca/entity"
 )
 
 type CheckMiddlewareSuite struct {
 	suite.Suite
-	movie *entity.Movie
+	movie *goteca.Movie
 }
 
 func (suite *CheckMiddlewareSuite) SetupSuite() {}
 
 func (suite *CheckMiddlewareSuite) SetupTest() {
-	suite.movie = &entity.Movie{ Name: "Batman" }
+	suite.movie = &goteca.Movie{Name: "Batman"}
 }
 
 func (suite *CheckMiddlewareSuite) TestInvalidMovie() {
-	err := validate(suite.movie)
+	err := http.Validate(suite.movie)
 	suite.NotNil(err)
 	suite.Equal("Category is required.", err.Error())
 }

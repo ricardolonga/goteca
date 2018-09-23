@@ -1,8 +1,8 @@
-package main
+package http
 
 import (
-	"testing"
 	"io/ioutil"
+	"testing"
 )
 
 func readJsonFile(t *testing.T, filePath string) []byte {

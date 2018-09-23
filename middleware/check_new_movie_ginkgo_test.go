@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"testing"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"testing"
-	"github.com/ricardolonga/goteca/entity"
+	"github.com/ricardolonga/goteca"
+	"github.com/ricardolonga/goteca/http"
 )
 
 func TestMiddleware(t *testing.T) {
@@ -13,16 +15,16 @@ func TestMiddleware(t *testing.T) {
 }
 
 var _ = Describe("Check middlewares", func() {
-	var movie *entity.Movie
+	var movie *goteca.Movie
 
 	BeforeEach(func() {
-		movie = &entity.Movie{ Name: "Batman" }
+		movie = &goteca.Movie{Name: "Batman"}
 	})
 
 	Describe("DADO que o usuário deseja cadastrar um novo filme", func() {
 		Context("QUANDO ele não informar a categoria", func() {
 			It("ENTAO a mensagem de erro deve ser 'Category is required.'", func() {
-				err := validate(movie)
+				err := http.Validate(movie)
 				Expect(err.Error()).To(Equal("Category is required."))
 			})
 		})
@@ -30,7 +32,7 @@ var _ = Describe("Check middlewares", func() {
 		Context("QUANDO ele informar a categoria", func() {
 			It("ENTAO o filme deve ser valido.", func() {
 				movie.Category = "Action"
-				err := validate(movie)
+				err := http.Validate(movie)
 				Expect(err).To(BeNil())
 			})
 		})

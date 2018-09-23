@@ -1,0 +1,6 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo:3.2
+    command: mongod --smallfiles --quiet --logpath=/dev/null
+    network_mode: "host"

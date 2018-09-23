@@ -1,12 +1,12 @@
-package middleware
+package http
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/NeowayLabs/logger"
+	"github.com/gin-gonic/gin"
 	"time"
 )
 
-func Log() gin.HandlerFunc {
+func count() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		now := time.Now()
 		context.Next()
