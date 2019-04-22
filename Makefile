@@ -19,7 +19,7 @@ env-stop: ## Kill test envinronment
 
 do-test: ## Execute all tests
 	MONGO_URL=localhost:27017 \
-	go test -v -p=1 $$(go list ./... | grep -v /vendor/)
+	go test -p=1 $$(go list ./... | grep -v /vendor/)
 
 test: env-stop env do-test env-stop ## Run the envinroment, do tests then kill the environment
 
